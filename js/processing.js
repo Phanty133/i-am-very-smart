@@ -48,7 +48,7 @@ async function wordIsConverteable(word) {
 	return ["noun", "verb", "adjective", "adverb"].includes(dictData[0].fl);
 }
 
-async function selectRandomSynonym(word) {
+async function selectRandomSynonym(word, randomDefinition = false) {
 	const thesData = await getThesaurusDataForWord(word);
 
 	if (thesData.length === 0) return word;
@@ -60,20 +60,21 @@ async function selectRandomSynonym(word) {
 	}
 
 	const synLists = closest.meta.syns;
-	const synList = synLists[0];
+	const definitionIndex = randomDefinition ? randInt(0, synLists.length - 1) : 0;
+	const synList = synLists[definitionIndex];
 
 	return synList[randInt(0, synList.length - 1)];
 }
 
-async function parseWord(word) {
+async function parseWord(word, randomDefinition = false) {
 	if (await wordIsConverteable(word)) {
-		return selectRandomSynonym(word);
+		return selectRandomSynonym(word, randomDefinition);
 	}
 
 	return word;
 }
 
-async function parseText(text) {
+async function parseText(text, randomDefinition = false) {
 	const splitText = text.trim().split(" ");
 	const parsePromises = [];
 
@@ -105,7 +106,7 @@ async function parseText(text) {
 			} else { break; }
 		}
 
-		const parsedWord = parseWord(splitWord.join(""));
+		const parsedWord = parseWord(splitWord.join(""), randomDefinition);
 
 		parsePromises.push(new Promise((res, rej) => {
 			parsedWord.then((val) => {

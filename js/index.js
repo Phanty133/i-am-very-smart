@@ -9,8 +9,9 @@ async function submitHandler() {
 	submitBtn.style.display = "none";
 	loader.style.display = "inline-block";
 
+	const randDef = document.getElementById("inputDefinition").checked;
 	// eslint-disable-next-line no-undef
-	const parsedText = await parseText(textInput.value);
+	const parsedText = await parseText(textInput.value, randDef);
 
 	submitBtn.style.display = "inline-block";
 	loader.style.display = "none";
