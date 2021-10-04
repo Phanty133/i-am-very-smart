@@ -56,7 +56,7 @@ async function selectRandomSynonym(word) {
 	const closest = thesData[0];
 
 	if (!closest.meta) {
-		return closest;
+		return word;
 	}
 
 	const synLists = closest.meta.syns;
