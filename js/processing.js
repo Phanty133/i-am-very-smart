@@ -54,6 +54,11 @@ async function selectRandomSynonym(word) {
 	if (!thesData) return null;
 
 	const closest = thesData[0];
+
+	if (!closest.meta) {
+		return closest;
+	}
+
 	const synLists = closest.meta.syns;
 	const synList = synLists[0];
 
@@ -127,20 +132,4 @@ async function parseText(text) {
 	}
 
 	return parsedText.trim();
-}
-
-async function testConvertable(word) {
-	console.log(await wordIsConverteable(word));
-}
-
-async function testRandSyn(word) {
-	console.log(await selectRandomSynonym(word));
-}
-
-async function testParseWord(word) {
-	console.log(await parseWord(word));
-}
-
-async function testParseText(text) {
-	console.log(await parseText(text));
 }
