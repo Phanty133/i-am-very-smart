@@ -37,7 +37,7 @@ async function getDictionaryDataForWord(word) {
 	}
 }
 
-// Parse only nouns, verbs, and adjectives
+// Parse only nouns, verbs, adverbs, and adjectives
 
 async function wordIsConverteable(word) {
 	const dictData = await getDictionaryDataForWord(word);
@@ -45,13 +45,13 @@ async function wordIsConverteable(word) {
 	if (!dictData) return null;
 
 	// Check if the most common definition is parseable
-	return ["noun", "verb", "adjective"].includes(dictData[0].fl);
+	return ["noun", "verb", "adjective", "adverb"].includes(dictData[0].fl);
 }
 
 async function selectRandomSynonym(word) {
 	const thesData = await getThesaurusDataForWord(word);
 
-	if (!thesData) return null;
+	if (thesData.length === 0) return word;
 
 	const closest = thesData[0];
 
